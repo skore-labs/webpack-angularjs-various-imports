@@ -6,7 +6,7 @@ Because we have spent HOURS finding the right way to import various library with
 * datatables.net
 * JSZip
 * bootstrap
-* mxgraph
+* mxgraph (see at the bottom)
 * moments js
 * json-api-normalize
 * angular-marked
@@ -158,4 +158,58 @@ export default angular.module('app.core', [
     'angular-loading-bar'
 ]);
 
+```
+
+for mxGraph I had to crate a speical loader (the idea came from someone else on the internet)
+
+```
+export default angular
+    .module("module.mxLoader", [])
+    .service("mxLoader", mxLoader);
+
+function mxLoader() {
+
+    var mx;
+
+    return {
+        load: function loadF(mxModule) {
+
+            if (!mx) {
+
+                mx = mxgraph({
+                    //mxImageBasePath: './images/mxgraph', 
+                    mxLanguage: "en",
+                    mxDefaultLanguage: "en"
+                });
+
+                // MUST load all the shit as global variables otherwise mxgraph can't find them (ex. mxCodec.decode will look for the class in the window object)
+                "mxClient,mxLog,mxObjectIdentity,mxDictionary,mxResources,mxEffects,mxUtils,mxConstants,mxEvent,mxClipboard,mxUrlConverter,mxVmlCanvas2D,mxStencilRegistry,mxMarker,mxHierarchicalEdgeStyle,mxCellPath,mxPerimeter,mxEdgeStyle,mxStyleRegistry,mxCodecRegistry,mxGenericChangeCodec,mxStylesheetCodec,mxDefaultToolbarCodec,mxGraph,mxRubberband,mxHierarchicalLayout,mxFastOrganicLayout,mxGraphModel,mxPanningHandler,mxKeyHandler,mxParallelEdgeLayout,mxLayoutManager,mxCompactTreeLayout,mxPrintPreview,mxToolbar,mxOutline,mxCellTracker,mxCellOverlay,mxImage,mxLoadResources,mxPopupMenu,mxCylinder,mxRectangle,mxCellRenderer,mxVertexHandler,mxPoint,mxHandle,mxRhombus, mxActor,mxArrow,mxArrowConnector,mxCloud,mxConnector,mxConnector,mxEllipse,mxHexagon,mxImageShape,mxLabel,mxLine,mxPolyline,mxMarker,mxRectangleShape,mxShape,mxStencil,mxStencilRegistry,mxSwimlane,mxText,mxTriangle,mxAutoSaveManager,mxDivResizer,mxForm,mxGuide,mxImageBundle,mxImageExport,mxLog,mxMorphing,mxMouseEvent,mxPanningManager,mxSvgCanvas2D,mxUndoableEdit,mxUndoManager,mxUrlConverter,mxWindow,mxXmlCanvas2D,mxXmlRequest,mxCellEditor,mxCellState,mxCellStatePreview,mxConnectionConstraint,mxGraphSelectionModel,mxGraphView,mxMultiplicity,mxSwimlaneManager,mxTemporaryCellStates,mxGeometry,mxStackLayout,mxRadialTreeLayout,mxPartitionLayout,mxGraphLayout,mxEdgeLabelLayout,mxCompositeLayout,mxCircleLayout,mxSwimlaneOrdering,mxMinimumCycleRemover,mxMedianHybridCrossingReduction,mxHierarchicalLayoutStage,mxCoordinateAssignment,mxSwimlaneLayout,mxObjectCodec,mxGenericChangeCodec,mxTooltipHandler,mxSelectionCellsHandler,mxPopupMenuHandler,mxGraphHandler,mxElbowEdgeHandler,mxEdgeHandler,mxConstraintHandler,mxConnectionHandler,mxCellMarker,mxCellHighlight,mxDefaultPopupMenu,mxDefaultKeyHandler,mxCodec,mxGraphHierarchyModel,mxGraphAbstractHierarchyCell,mxGraphHierarchyEdge,mxGraphHierarchyNode,mxSwimlaneModel,mxEdgeSegmentHandler"
+                    .split(",")
+                    .forEach(function (module) {
+                        window[module] = mx[module];
+                    })
+
+
+            }
+
+            return mx[mxModule];
+        }
+    }
+
+}
+```
+
+and then in each file where i need to use mxXYZ : 
+
+```
+
+export default angular
+    .module("module.skGraph", [])
+    .factory("skGraph", skGraph);
+
+/* @ngInject */
+function skGraph(mxLoader) {
+    var mxCell = mxLoader.load("mxCell");
+}
+    
 ```

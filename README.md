@@ -1,6 +1,6 @@
 # webpack javascript import for angularjs and laravel mix
 
-Because we have spent HOURS finding the right way to import various library with webpack (the laravel mix breed of it), here is the cheat sheet.  
+Because we have spent HOURS finding the right way to import various library with webpack (the laravel mix breed of it), here is the cheat sheet.  It may not be state of the art programming, but module management in javascript is not standard, so here is what works for us.
 
 * angularjs
 * datatables.net
@@ -12,6 +12,7 @@ Because we have spent HOURS finding the right way to import various library with
 * angular-marked
 * chartjs
 * ngIdle
+* ...
 
 create a `bootstrap.js` file for bootstrap, datatables and mxgrpah
 

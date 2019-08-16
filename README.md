@@ -1,5 +1,6 @@
-# webpack-angularjs-various-imports
-Because we have spent HOURS finding the right way to import various library with webpack (the laravel mix breed of it), here is the cheat sheet. Don 
+# webpack javascript import for angularjs and laravel mix
+
+Because we have spent HOURS finding the right way to import various library with webpack (the laravel mix breed of it), here is the cheat sheet.  
 
 * angularjs
 * datatables.net
